@@ -1,12 +1,17 @@
-// jest.config.js
-import baseConfig from './jest.config.base';
+import baseConfig from '../../jest.config.base';
+const packageName = 'agent';
 
 module.exports = {
   ...baseConfig,
-  projects: ['<rootDir>/packages/*/jest.config.ts'],
-  moduleNameMapper: {
-    '.json$': 'identity-obj-proxy',
-  },
+  roots: [`<rootDir>/packages/${packageName}`],
+  fakeTimers: { enableGlobally: true },
   moduleDirectories: ['node_modules'],
-  collectCoverageFrom: ['<rootDir>/packages/*/src/**/*.{ts,tsx}'],
+  modulePaths: [`<rootDir>/packages/${packageName}/src/`],
+  setupFiles: [`<rootDir>/packages/${packageName}/test-setup.ts`],
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+  },
+  collectCoverageFrom: ['src/**/*.{ts,tsx}'],
+  displayName: packageName,
+  rootDir: '../..',
 };
